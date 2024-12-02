@@ -15,8 +15,7 @@ class World {
     void Render(sf::RenderWindow& l_window);
     void ReadWorld();
     void GenerateMovingWalls();
-    void RespawnShield();
-    void RespawnSlow();
+    void DropApple(Snake& l_player);
     bool CheckCollisionWithWalls(sf::Vector2i& m);
     void MoveWalls();
 
@@ -37,5 +36,8 @@ class World {
     std::vector<RectangleShape*> m_horizontalWallShape;
     Direction m_verticalWallDirection;
     Direction m_horizontalWallDirection;
+    std::vector<sf::Vector2i> m_apples; // To store the positions of the apples
+    std::vector<sf::CircleShape> m_appleShapes; // To store the shapes of the apples
+     sf::Clock m_fallClock;  // New clock for additional timing
     sf::Clock m_clock;
 };

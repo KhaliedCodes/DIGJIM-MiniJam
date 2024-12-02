@@ -10,9 +10,8 @@ Game::Game()
       m_snake(m_world.GetBlockSize()),
       m_world(sf::Vector2u(800, 600)) {}
 void Game::Update() {
-    float timestep = 1.0f / m_snake.GetSpeed();
-    if (m_elapsed.asSeconds() >= timestep &&
-        m_snake.GetDirection() != Direction::None) {
+    float timestep = 1.0f / 60;
+    if (m_elapsed.asSeconds() >= timestep ) {
         m_snake.Tick();
         m_world.Update(m_snake);
         if (m_snake.HasLost()) {

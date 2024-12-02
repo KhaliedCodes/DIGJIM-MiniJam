@@ -8,7 +8,7 @@ using namespace sf;
 int main() {
     srand(time(0));
     // Program entry point.
-    Game game;  // Creating our game object.
+    Game game;  // Creating our game obadject.
     while (!game.GetWindow()->IsDone()) {
         // Game loop.
 
