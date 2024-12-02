@@ -14,11 +14,8 @@ class World {
     void Update(Snake& l_player);
     void Render(sf::RenderWindow& l_window);
     void ReadWorld();
-    void GenerateMovingWalls();
-    void RespawnShield();
-    void RespawnSlow();
     bool CheckCollisionWithWalls(sf::Vector2i& m);
-    void MoveWalls();
+    std::vector<std::vector<RectangleShape*>> grid;
 
   private:
     sf::Vector2u m_windowSize;
@@ -32,7 +29,6 @@ class World {
     sf::RectangleShape m_shieldShape;
     sf::CircleShape m_slowShape;
     sf::RectangleShape m_bounds[4];
-    std::vector<std::vector<RectangleShape*>> grid;
     std::vector<RectangleShape*> m_verticalWallShape;
     std::vector<RectangleShape*> m_horizontalWallShape;
     Direction m_verticalWallDirection;

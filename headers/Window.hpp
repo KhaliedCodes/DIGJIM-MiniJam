@@ -12,10 +12,11 @@ class GameWindow {
     bool IsDone();
     sf::RenderWindow m_window;
     // sf::RenderWindow GetRenderWindow();
-    bool IsFullscreen();
+    // bool IsFullscreen();
     sf::Vector2u GetWindowSize();
     void ToggleFullscreen();
     void Draw(sf::Drawable &l_drawable);
+    bool m_isDone;
 
   private:
     void Setup(const std::string &l_title, const sf::Vector2u &l_size);
@@ -23,6 +24,4 @@ class GameWindow {
     void Create();
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
-    bool m_isDone;
-    bool m_isFullscreen;
 };
