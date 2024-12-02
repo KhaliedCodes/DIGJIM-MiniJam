@@ -11,14 +11,13 @@ Game::Game()
       m_world(sf::Vector2u(800, 600)) {}
 void Game::Update() {
     float timestep = 1.0f / 60;
-    if (m_elapsed.asSeconds() >= timestep ) {
-        m_snake.Tick();
+    if (m_elapsed.asSeconds() >= timestep) {
+        // m_snake.Tick();
         m_world.Update(m_snake);
         if (m_snake.HasLost()) {
             m_snake.Reset();
         }
-    }
-    if (m_elapsed.asSeconds() >= timestep) {
+
         m_elapsed -= sf::seconds(timestep);
     }
     m_window.Update();  // Update window events.
@@ -26,6 +25,13 @@ void Game::Update() {
 
 void Game::Render() {
     m_window.BeginDraw();  // Clear.
+
+    sf::View view = m_window.m_window.getView();
+    // view.zoom(1.5f);
+    view.setCenter(
+        sf::Vector2f(m_snake.GetPosition().x * m_world.GetBlockSize(),
+                     m_snake.GetPosition().y * m_world.GetBlockSize()));
+    m_window.m_window.setView(view);
     m_world.Render(m_window.m_window);
     m_snake.Render(m_window.m_window);  // Display.
     m_snake.DisplayScore(m_window.m_window);
@@ -33,18 +39,44 @@ void Game::Render() {
 }
 
 void Game::HandleInput() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-        m_snake.GetDirection() != Direction::Down) {
-        m_snake.SetDirection(Direction::Up);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-               m_snake.GetDirection() != Direction::Up) {
-        m_snake.SetDirection(Direction::Down);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-               m_snake.GetDirection() != Direction::Right) {
-        m_snake.SetDirection(Direction::Left);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-               m_snake.GetDirection() != Direction::Left) {
-        m_snake.SetDirection(Direction::Right);
+    sf::Event event;
+    while (m_window.m_window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            m_window.m_isDone = true;
+        }
+        if (event.type == sf::Event::MouseWheelScrolled) {
+            if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                sf::View view = m_window.m_window.getView();
+                if (view.getSize().x <
+                    m_window.m_window.getDefaultView().getSize().x * 2) {
+                    float zoomFactor =
+                        (event.mouseWheelScroll.delta > 0) ? 1.0f : 1.1f;
+                    view.zoom(zoomFactor);
+                    m_window.m_window.setView(view);
+                }
+                if (view.getSize().x >
+                    m_window.m_window.getDefaultView().getSize().x / 2) {
+                    float zoomFactor =
+                        (event.mouseWheelScroll.delta > 0) ? 0.9f : 1.0f;
+                    view.zoom(zoomFactor);
+                    m_window.m_window.setView(view);
+                }
+            }
+        }
+        if (event.type == Event::KeyPressed)
+            if (event.key.code == Keyboard::Up) {
+                m_snake.SetDirection(Direction::Up);
+                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+            } else if (event.key.code == Keyboard::Down) {
+                m_snake.SetDirection(Direction::Down);
+                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+            } else if (event.key.code == Keyboard::Left) {
+                m_snake.SetDirection(Direction::Left);
+                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+            } else if (event.key.code == Keyboard::Right) {
+                m_snake.SetDirection(Direction::Right);
+                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+            }
     }
 }
 

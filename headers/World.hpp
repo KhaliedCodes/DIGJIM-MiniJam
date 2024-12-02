@@ -17,7 +17,7 @@ class World {
     void GenerateMovingWalls();
     void DropApple(Snake& l_player);
     bool CheckCollisionWithWalls(sf::Vector2i& m);
-    void MoveWalls();
+    std::vector<std::vector<RectangleShape*>> grid;
 
   private:
     sf::Vector2u m_windowSize;
@@ -31,7 +31,6 @@ class World {
     sf::RectangleShape m_shieldShape;
     sf::CircleShape m_slowShape;
     sf::RectangleShape m_bounds[4];
-    std::vector<std::vector<RectangleShape*>> grid;
     std::vector<RectangleShape*> m_verticalWallShape;
     std::vector<RectangleShape*> m_horizontalWallShape;
     Direction m_verticalWallDirection;

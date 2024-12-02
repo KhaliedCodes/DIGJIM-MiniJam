@@ -8,34 +8,40 @@
 using namespace std;
 
 World::World(sf::Vector2u l_windSize) {
-    m_blockSize = 16;
+    m_blockSize = 128;
     m_windowSize = l_windSize;
     m_clock.restart();
     RespawnApple();
-    GenerateMovingWalls();
-    m_horizontalWallDirection = Direction::Right;
-    m_verticalWallDirection = Direction::Down;
+    // RespawnShield();
+    // GenerateMovingWalls();
+    // m_horizontalWallDirection = Direction::Right;
+    // m_verticalWallDirection = Direction::Down;
+    // m_slowShape.setPosition(-100, -100);
+    // m_appleShape.setFillColor(sf::Color::Red);
 
+    sf::Texture wallTexture;
 
-    m_appleShape.setFillColor(sf::Color::Red);
+    wallTexture.loadFromFile("../static/Golden fish.png");
+    m_appleShape.setTexture(&wallTexture);
     m_appleShape.setRadius(m_blockSize / 2);
-
-    for (int i = 0; i < 4; ++i) {
-        m_bounds[i].setFillColor(sf::Color(150, 0, 0));
-        if (!((i + 1) % 2)) {
-            m_bounds[i].setSize(sf::Vector2f(m_windowSize.x, m_blockSize));
-        }
-        else {
-            m_bounds[i].setSize(sf::Vector2f(m_blockSize, m_windowSize.y));
-        }
-        if (i < 2) {
-            m_bounds[i].setPosition(0, 0);
-        }
-        else {
-            m_bounds[i].setOrigin(m_bounds[i].getSize());
-            m_bounds[i].setPosition(sf::Vector2f(m_windowSize));
-        }
-    }
+    // m_shieldShape.setFillColor(sf::Color::Blue);
+    // m_shieldShape.setSize(sf::Vector2f(m_blockSize, m_blockSize));
+    // m_slowShape.setFillColor(sf::Color::Green);
+    // m_slowShape.setRadius(m_blockSize / 2);
+    // for (int i = 0; i < 4; ++i) {
+    //     m_bounds[i].setFillColor(sf::Color(150, 0, 0));
+    //     if (!((i + 1) % 2)) {
+    //         m_bounds[i].setSize(sf::Vector2f(m_windowSize.x, m_blockSize));
+    //     } else {
+    //         m_bounds[i].setSize(sf::Vector2f(m_blockSize, m_windowSize.y));
+    //     }
+    //     if (i < 2) {
+    //         m_bounds[i].setPosition(0, 0);
+    //     } else {
+    //         m_bounds[i].setOrigin(m_bounds[i].getSize());
+    //         m_bounds[i].setPosition(sf::Vector2f(m_windowSize));
+    //     }
+    // }
 
     ReadWorld();
     m_clock.restart();
@@ -77,20 +83,7 @@ void World::DropApple(Snake& l_player) {
                 for (size_t i = 0; i < grid.size(); i++) {
                     for (size_t j = 0; j < grid[i].size(); j++) {
                         sf::Vector2f blockPos = grid[i][j]->getPosition();
-                        if (l_player.GetPosition().x == static_cast<int>(blockPos.x / m_blockSize) &&
-                            l_player.GetPosition().y == static_cast<int>(blockPos.y / m_blockSize)) {
-                            if (l_player.HasShield()) {
-                                l_player.LoseShield();
-                                l_player.SetDirection(Direction::None);
-                                l_player.MoveReverse();
-                            }
-                            else {
-                                GenerateMovingWalls();
-                                m_clock.restart();
-                                l_player.Lose();
-                            }
-                        }
-
+                       
                         if (testPosition == sf::Vector2i(blockPos.x / m_blockSize, blockPos.y / m_blockSize)) {
                             cellOccupied = true;
                             break;
@@ -164,51 +157,44 @@ void World::Update(Snake& l_player) {
         if (l_player.GetPosition() == apple) {
             cout << "Apple collected!" << endl;
             l_player.IncreaseScore();
-            l_player.Extend();
-            l_player.IncreaseSpeed();
             m_apples.erase(std::remove(m_apples.begin(), m_apples.end(), apple), m_apples.end());
             m_appleShapes.erase(m_appleShapes.begin() + (&apple - &m_apples[0])); 
             break;
         }
     }
 
+    // MoveWalls();
+    if (l_player.GetPosition() == m_apple) {
+        cout << "eated?" << endl;
+        // l_player.Extend();
+        l_player.IncreaseScore();
+        l_player.IncreaseSpeed();
+        RespawnApple();
+    }
+
+    // if (l_player.GetPosition() == m_shield) {
+    //     l_player.SetShield();
+    //     m_shieldShape.setPosition(-111, -111);
+    //     m_shield = sf::Vector2(-111, -111);
+    // }
+    // if (l_player.GetPosition() == m_slow) {
+    //     l_player.DecreaseSpeed();
+    //     m_slowShape.setPosition(-111, -111);
+    //     m_slow = sf::Vector2(-111, -111);
+    // }
+    auto elapsed = m_clock.getElapsedTime().asSeconds();
+    // if (((int)elapsed % 30) == 0 && (int)elapsed != 0 &&
+    //     m_shieldShape.getPosition().x < 0) {
+    //     RespawnShield();
+    // }
+    // if (((int)elapsed % 30) == 0 && (int)elapsed != 0 &&
+    //     m_slowShape.getPosition().x < 0) {
+    //     RespawnSlow();
+    // }
     int gridSize_x = m_windowSize.x / m_blockSize;
     int gridSize_y = m_windowSize.y / m_blockSize;
 
-    if (l_player.GetPosition().x <= 0 || l_player.GetPosition().y <= 0 ||
-        l_player.GetPosition().x >= gridSize_x - 1 ||
-        l_player.GetPosition().y >= gridSize_y - 1) {
-        if (l_player.HasShield()) {
-            l_player.LoseShield();
-            l_player.SetDirection(Direction::None);
-            l_player.MoveReverse();
-        }
-        else {
-            l_player.Lose();
-            GenerateMovingWalls();
-            m_clock.restart();
-        }
-    }
-
-    for (size_t i = 0; i < grid.size(); i++) {
-        for (size_t j = 0; j < grid[i].size(); j++) {
-            if (l_player.GetPosition().x ==
-                (grid[i][j]->getPosition().x / m_blockSize) &&
-                l_player.GetPosition().y ==
-                (grid[i][j]->getPosition().y / m_blockSize)) {
-                if (l_player.HasShield()) {
-                    l_player.LoseShield();
-                    l_player.SetDirection(Direction::None);
-                    l_player.MoveReverse();
-                }
-                else {
-                    GenerateMovingWalls();
-                    m_clock.restart();
-                    l_player.Lose();
-                }
-            }
-        }
-    }
+  
 }
 
 void World::Render(sf::RenderWindow& l_window) {
@@ -250,6 +236,7 @@ World::~World() {
     }
 }
 
+sf::Texture wallTexture;
 void World::ReadWorld() {
     const string path = "../static/grid.txt";
     ifstream myfile(path, ios_base::in);
@@ -262,15 +249,23 @@ void World::ReadWorld() {
     string line;
     int row = 0;
     int winY = 0;
-    while (getline(myfile, line) && winY < m_windowSize.y) {
-        grid.push_back(std::vector<sf::RectangleShape*>());
-        for (size_t col = 0, winX = 0; winX < m_windowSize.x && col < line.length(); ++col, winX += m_blockSize) {
+
+    wallTexture.loadFromFile("../static/snowSeamless.png");
+    while (getline(myfile, line)) {
+        grid.push_back(std::vector<RectangleShape*>());
+        for (int col = 0, winX = 0;
+             /*winX < m_windowSize.x &&*/ line[col] != '\0';
+             col++, winX += m_blockSize) {
             if (line[col] == '#') {
                 auto block = new sf::RectangleShape();
                 block->setPosition(sf::Vector2f(winX, winY));
                 block->setSize(sf::Vector2f(m_blockSize, m_blockSize));
                 block->setFillColor(sf::Color(150, 0, 0));
                 grid[row].push_back(block);
+                (*block).setPosition(sf::Vector2f(winX, winY));
+                (*block).setSize(sf::Vector2f(m_blockSize, m_blockSize));
+                block->setTexture(&wallTexture);
+                // (*block).setFillColor(sf::Color(150, 0, 0));
             }
         }
         row++;
