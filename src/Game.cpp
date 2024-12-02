@@ -12,7 +12,6 @@ Game::Game()
 void Game::Update() {
     float timestep = 1.0f / 60;
     if (m_elapsed.asSeconds() >= timestep) {
-        // m_snake.Tick();
         m_world.Update(m_snake);
         if (m_snake.HasLost()) {
             m_snake.Reset();

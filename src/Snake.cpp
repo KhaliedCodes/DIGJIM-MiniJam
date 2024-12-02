@@ -14,8 +14,6 @@ void Snake::SetDirection(Direction l_dir) { m_dir = l_dir; }
 void Snake::Reset() {
     m_snakeBody.clear();
     m_snakeBody.push_back(SnakeSegment(5, 7));
-    // m_snakeBody.push_back(SnakeSegment(5, 6));
-    // m_snakeBody.push_back(SnakeSegment(5, 5));
     SetDirection(Direction::None);  // Start off still.
     m_speed = 10;
     m_lives = 3;
