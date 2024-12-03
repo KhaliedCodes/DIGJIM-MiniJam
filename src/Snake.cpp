@@ -184,3 +184,8 @@ void Snake::DisplayScore(sf::RenderWindow& l_window) {
 }
 
 SnakeContainer Snake::GetSnakeBody() { return m_snakeBody; }
+
+void Snake::setPosition(Vector2f position) {
+    this->m_snakeBody[0].position.x = position.x / 64;
+    this->m_snakeBody[0].position.y = position.y / 64;
+}

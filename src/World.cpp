@@ -12,7 +12,7 @@ using namespace std;
 
 sf::Texture collectibleTexture;
 sf::Texture wallTexture;
-World::World(sf::Vector2u l_windSize) {
+World::World(sf::Vector2u l_windSize, Snake& l_player) {
     m_blockSize = 64;
     m_windowSize = l_windSize;
     m_clock.restart();
@@ -23,7 +23,7 @@ World::World(sf::Vector2u l_windSize) {
     m_appleShape.setTexture(&wallTexture);
     m_appleShape.setRadius(m_blockSize / 2);
 
-    ReadWorld();
+    ReadWorld(l_player);
     m_clock.restart();
 }
 
@@ -185,7 +185,7 @@ void World::Render(sf::RenderWindow& l_window) {
 }
 int World::GetBlockSize() { return m_blockSize; }
 
-void World::ReadWorld() {
+void World::ReadWorld(Snake& l_player) {
     const string path = "../static/grid.txt";
     ifstream myfile(path, ios_base::in);
 
@@ -233,6 +233,9 @@ void World::ReadWorld() {
                 auto block = new Rock(sf::Vector2f(winX, winY), m_blockSize,
                                       rockTexture);
                 rocks.push_back(block);
+            }
+            if (line[col] == 'A') {
+                l_player.setPosition(sf::Vector2f(winX, winY));
             }
         }
         row++;

@@ -17,6 +17,7 @@ class GameWindow {
     void ToggleFullscreen();
     void Draw(sf::Drawable &l_drawable);
     bool m_isDone;
+    sf::RenderWindow *getWindow();
 
   private:
     void Setup(const std::string &l_title, const sf::Vector2u &l_size);

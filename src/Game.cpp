@@ -8,7 +8,7 @@ Game::~Game() {}
 Game::Game()
     : m_window("Snake", sf::Vector2u(800, 600)),
       m_snake(m_world.GetBlockSize()),
-      m_world(sf::Vector2u(800, 600)) {}
+      m_world(sf::Vector2u(800, 600), m_snake) {}
 void Game::Update() {
     float timestep = 1.0f / 60;
     if (m_elapsed.asSeconds() >= timestep) {
@@ -26,7 +26,6 @@ void Game::Render() {
     m_window.BeginDraw();  // Clear.
 
     sf::View view = m_window.m_window.getView();
-    // view.zoom(1.5f);
     view.setCenter(
         sf::Vector2f(m_snake.GetPosition().x * m_world.GetBlockSize(),
                      m_snake.GetPosition().y * m_world.GetBlockSize()));

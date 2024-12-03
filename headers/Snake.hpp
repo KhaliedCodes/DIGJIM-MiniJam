@@ -35,6 +35,7 @@ class Snake {
     void MoveReverse();
     void IncreaseSpeed();
     void DecreaseSpeed();
+    void setPosition(Vector2f position);
     void DisplayScore(sf::RenderWindow& l_window);
     SnakeContainer GetSnakeBody();
 
@@ -49,6 +50,8 @@ class Snake {
     bool shield;
     sf::RectangleShape m_bodyRect;  // Shape used in rendering.
     sf::Texture texture;
+    sf::Texture textureUp;
+    sf::Texture textureDown;
 };
 
 #endif

@@ -41,3 +41,5 @@ void GameWindow::Draw(sf::Drawable& l_drawable) { m_window.draw(l_drawable); }
 
 void GameWindow::BeginDraw() { m_window.clear(sf::Color::Black); }
 void GameWindow::EndDraw() { m_window.display(); }
+
+sf::RenderWindow* GameWindow::getWindow() { return &m_window; }

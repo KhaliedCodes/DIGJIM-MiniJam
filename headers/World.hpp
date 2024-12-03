@@ -9,12 +9,12 @@ using namespace sf;
 
 class World {
   public:
-    World(sf::Vector2u l_windSize);
+    World(sf::Vector2u l_windSize, Snake& l_player);
     int GetBlockSize();
     void RespawnApple(Vector2f& position);
     void Update(Snake& l_player);
     void Render(sf::RenderWindow& l_window);
-    void ReadWorld();
+    void ReadWorld(Snake& l_player);
     void DropApple(Snake& l_player);
     bool CheckCollisionWithWalls(sf::Vector2i& m);
     std::vector<std::vector<RectangleShape*>> grid;
