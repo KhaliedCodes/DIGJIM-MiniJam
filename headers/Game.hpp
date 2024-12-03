@@ -18,7 +18,6 @@ public:
 private:
     World m_world;
     Snake m_snake;
-    void MoveMushroom();
     GameWindow m_window;
     sf::Clock m_clock;
     sf::Time m_elapsed;
