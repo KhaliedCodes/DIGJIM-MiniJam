@@ -10,13 +10,13 @@
 #include "../headers/Collectable.hpp"
 using namespace std;
 
-sf::Texture collectibleTexture;
-sf::Texture wallTexture;
+//sf::Texture collectibleTexture;
+//sf::Texture wallTexture;
 World::World(sf::Vector2u l_windSize) {
     m_blockSize = 64;
     m_windowSize = l_windSize;
     m_clock.restart();
-
+    quote = 5;
     sf::Texture wallTexture;
 
     wallTexture.loadFromFile("../static/Golden fish.png");
@@ -93,7 +93,7 @@ void World::RespawnApple(Vector2f& position) {
 
     sf::CircleShape appleShape(m_blockSize / 2);
     appleShape.setFillColor(sf::Color::Red);
-    appleShape.setTexture(&collectibleTexture);
+    //appleShape.setTexture(&collectibleTexture);
     appleShape.setPosition(newApple.x / m_blockSize, newApple.y / m_blockSize);
     m_appleShapes.push_back(appleShape);
 
@@ -182,6 +182,8 @@ void World::Render(sf::RenderWindow& l_window) {
     for (auto& rock : rocks) {
         rock->render(l_window);
     }
+    door->render(l_window,quote);
+    //startdoor->render(l_window);
 }
 int World::GetBlockSize() { return m_blockSize; }
 
@@ -202,7 +204,7 @@ void World::ReadWorld() {
     sf::Texture collectiBleTexture;
     sf::Texture rockTexture;
     sandTexture.loadFromFile("../static/snowSeamless.png");
-    wallTexture.loadFromFile("../static/wall.PNG");
+    //wallTexture.loadFromFile("../static/wall.PNG");
     collectiBleTexture.loadFromFile("../static/Golden fish.png");
     rockTexture.loadFromFile("../static/rock.png");
     while (getline(myfile, line)) {
@@ -215,7 +217,7 @@ void World::ReadWorld() {
                 block->setPosition(sf::Vector2f(winX, winY));
                 block->setSize(sf::Vector2f(m_blockSize, m_blockSize));
                 grid[row].push_back(block);
-                block->setTexture(&wallTexture);
+                //block->setTexture(&wallTexture);
             }
 
             if (line[col] == '@') {
@@ -234,6 +236,12 @@ void World::ReadWorld() {
                                       rockTexture);
                 rocks.push_back(block);
             }
+            if (line[col] == 'D') {
+                door = new Door(sf::Vector2f(winX,winY),m_blockSize);
+            }
+            //if (line[col] == 'S') {
+            //    startdoor = new StartDoor(sf::Vector2f(winX, winY), m_blockSize);
+            //}
         }
         row++;
         winY += m_blockSize;

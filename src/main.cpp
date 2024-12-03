@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "../headers/Game.hpp"
 
 // #include "../headers/Game.hpp"
-#include "../headers/Game.hpp"
 using namespace sf;
 
 int main() {
