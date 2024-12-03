@@ -10,8 +10,8 @@
 #include "../headers/Collectable.hpp"
 using namespace std;
 
-sf::Texture collectibleTexture;
-sf::Texture wallTexture;
+//sf::Texture collectibleTexture;
+//sf::Texture wallTexture;
 World::World(sf::Vector2u l_windSize, Snake& l_player) {
     m_blockSize = 64;
     m_windowSize = l_windSize;

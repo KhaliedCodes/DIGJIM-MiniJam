@@ -23,13 +23,10 @@ bool GUI::isButtonClicked(sf::RectangleShape& button, sf::Vector2i& mousePos) {
 }
 
 int GUI::gui_start(sf::RenderWindow& window, sf::RectangleShape& startButton,
-                   sf::RectangleShape& exitButton, sf::Text& startText,
-                   sf::Text& exitText) {
-    window.clear(sf::Color::Black);
+                   sf::RectangleShape& exitButton) {
+    window.clear(sf::Color::Blue);
     window.draw(startButton);
     window.draw(exitButton);
-    window.draw(startText);
-    window.draw(exitText);
     window.display();
     return 0;
 }
