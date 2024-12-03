@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-
+#include"../headers/Door.hpp"
+#include"../headers/StartingDoor.hpp"
 #include "../headers/Collectable.hpp"
 #include "../headers/Snake.hpp"
 using namespace sf;
@@ -26,8 +27,11 @@ class World {
     sf::Vector2u m_windowSize;
     sf::Vector2i m_apple;
     int m_blockSize;
+    int quote;
     sf::CircleShape m_appleShape;
     sf::RectangleShape m_bounds[4];
+    Door* door;
+    StartingDoor* startdoor;
     std::vector<sf::Vector2i> m_apples;  // To store the positions of the apples
     std::vector<sf::CircleShape>
         m_appleShapes;      // To store the shapes of the apples

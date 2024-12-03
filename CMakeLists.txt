@@ -22,7 +22,9 @@ headers/Game.hpp src/Game.cpp
 headers/Collectable.hpp src/Collectable.cpp
 headers/Rock.hpp src/Rock.cpp
 headers/Sand.hpp src/Sand.cpp
-headers/GUI.hpp src/GUI.cpp)
+headers/GUI.hpp src/GUI.cpp
+headers/Door.hpp src/Door.cpp
+headers/StartingDoor.hpp src/StartingDoor.cpp)
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_17)
 

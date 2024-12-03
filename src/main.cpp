@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "../headers/Game.hpp"
+
 // #include "../headers/Game.hpp"
 #include "../headers/GUI.hpp"
 #include "../headers/Game.hpp"
