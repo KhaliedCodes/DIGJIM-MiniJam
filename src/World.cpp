@@ -198,11 +198,9 @@ void World::Update(Snake& l_player) {
             break;
         }
     }
-    bool isGameWon = false;
     if (l_player.GetPosition().x == door->getPosition().x &&
         l_player.GetPosition().y == door->getPosition().y) {
         cout << "Player Wins!" << endl;
-        isGameWon = true;
     }
     auto elapsed = m_clock.getElapsedTime().asSeconds();
 
