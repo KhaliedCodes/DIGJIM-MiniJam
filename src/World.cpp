@@ -10,8 +10,8 @@
 #include "../headers/Collectable.hpp"
 using namespace std;
 
-sf::Texture collectibleTexture;
-sf::Texture wallTexture;
+//sf::Texture collectibleTexture;
+//sf::Texture wallTexture;
 World::World(sf::Vector2u l_windSize, Snake& l_player) {
     m_blockSize = 64;
     m_windowSize = l_windSize;
@@ -197,6 +197,12 @@ void World::Update(Snake& l_player) {
             l_player.IncreaseScore();
             break;
         }
+    }
+    bool isGameWon = false;
+    if (l_player.GetPosition().x == door->getPosition().x &&
+        l_player.GetPosition().y == door->getPosition().y) {
+        cout << "Player Wins!" << endl;
+        isGameWon = true;
     }
     auto elapsed = m_clock.getElapsedTime().asSeconds();
 
