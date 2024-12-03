@@ -7,8 +7,8 @@
 Game::~Game() {}
 Game::Game()
     : m_window("Snake", sf::Vector2u(800, 600)),
-      m_snake(m_world.GetBlockSize()),
-      m_world(sf::Vector2u(800, 600)) {}
+    m_snake(m_world.GetBlockSize()),
+    m_world(sf::Vector2u(800, 600)) {}
 void Game::Update() {
     float timestep = 1.0f / 60;
     if (m_elapsed.asSeconds() >= timestep) {
@@ -29,7 +29,7 @@ void Game::Render() {
     // view.zoom(1.5f);
     view.setCenter(
         sf::Vector2f(m_snake.GetPosition().x * m_world.GetBlockSize(),
-                     m_snake.GetPosition().y * m_world.GetBlockSize()));
+            m_snake.GetPosition().y * m_world.GetBlockSize()));
     m_window.m_window.setView(view);
     m_world.Render(m_window.m_window);
     m_snake.Render(m_window.m_window);  // Display.
@@ -66,20 +66,24 @@ void Game::HandleInput() {
             if (event.key.code == Keyboard::Up) {
                 m_snake.SetDirection(Direction::Up);
                 m_snake.Move(m_world.grid, m_world.rocks,
-                             m_world.GetBlockSize());
-            } else if (event.key.code == Keyboard::Down) {
+                    m_world.GetBlockSize());
+            }
+            else if (event.key.code == Keyboard::Down) {
                 m_snake.SetDirection(Direction::Down);
                 m_snake.Move(m_world.grid, m_world.rocks,
-                             m_world.GetBlockSize());
-            } else if (event.key.code == Keyboard::Left) {
+                    m_world.GetBlockSize());
+            }
+            else if (event.key.code == Keyboard::Left) {
                 m_snake.SetDirection(Direction::Left);
                 m_snake.Move(m_world.grid, m_world.rocks,
-                             m_world.GetBlockSize());
-            } else if (event.key.code == Keyboard::Right) {
+                    m_world.GetBlockSize());
+            }
+            else if (event.key.code == Keyboard::Right) {
                 m_snake.SetDirection(Direction::Right);
                 m_snake.Move(m_world.grid, m_world.rocks,
-                             m_world.GetBlockSize());
+                    m_world.GetBlockSize());
             }
+
     }
 }
 

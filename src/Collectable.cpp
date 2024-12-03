@@ -1,7 +1,7 @@
 #include "../headers/Collectable.hpp"
 
 Collectable::Collectable(sf::Vector2f position, int blockSize,
-                         sf::Texture texture) {
+    sf::Texture texture) {
     this->position =
         sf::Vector2f(position.x / blockSize, position.y / blockSize);
     shape = new sf::RectangleShape();

@@ -14,7 +14,7 @@ using namespace sf;
 using SnakeContainer = std::vector<SnakeSegment>;
 
 class Snake {
-  public:
+public:
     Snake(int l_blockSize);
     ~Snake();
     // Helper methods.
@@ -30,7 +30,7 @@ class Snake {
     void ToggleLost();
     void Reset();  // Reset to starting position.
     void Move(std::vector<std::vector<RectangleShape*>> grid,
-              std::vector<Rock*> rocks, int m_blockSize);  // Movement method.
+        std::vector<Rock*> rocks, int m_blockSize);  // Movement method.
     void Render(sf::RenderWindow& l_window);
     void MoveReverse();
     void IncreaseSpeed();
@@ -38,7 +38,7 @@ class Snake {
     void DisplayScore(sf::RenderWindow& l_window);
     SnakeContainer GetSnakeBody();
 
-  private:
+private:
     SnakeContainer m_snakeBody;  // Segment vector.
     int m_size;                  // Size of the graphics.
     Direction m_dir;             // Current direction.

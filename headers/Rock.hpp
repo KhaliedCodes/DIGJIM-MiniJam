@@ -5,10 +5,11 @@ class Rock {
     sf::Texture texture;
     sf::RectangleShape* shape;
 
-  public:
+public:
     Rock(sf::Vector2f position, int blockSize, sf::Texture texture);
     void SetPosition(sf::Vector2f position);
     sf::Vector2f getPosition();
     void render(sf::RenderWindow& l_window);
     void update(int blockSize);
+
 };

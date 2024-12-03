@@ -13,8 +13,8 @@ void GameWindow::Setup(const std::string& l_title, const sf::Vector2u& l_size) {
 }
 
 void GameWindow::Create() {
-    m_window.create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle,
-                    sf::Style::Close);
+    m_window.create({ m_windowSize.x, m_windowSize.y, 32 }, m_windowTitle,
+        sf::Style::Close);
 }
 void GameWindow::Destroy() { m_window.close(); }
 
@@ -23,8 +23,9 @@ void GameWindow::Update() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_isDone = true;
-        } else if (event.type == sf::Event::KeyPressed &&
-                   event.key.code == sf::Keyboard::F5) {
+        }
+        else if (event.type == sf::Event::KeyPressed &&
+            event.key.code == sf::Keyboard::F5) {
             ToggleFullscreen();
         }
     }

@@ -28,7 +28,7 @@ Direction Snake::GetDirection() { return m_dir; }
 int Snake::GetSpeed() { return m_speed; }
 sf::Vector2i Snake::GetPosition() {
     return (!m_snakeBody.empty() ? m_snakeBody.front().position
-                                 : sf::Vector2i(1, 1));
+        : sf::Vector2i(1, 1));
 }
 int Snake::GetLives() { return m_lives; }
 int Snake::GetScore() { return m_score; }
@@ -38,7 +38,7 @@ void Snake::Lose() { m_lost = true; }
 void Snake::ToggleLost() { m_lost = !m_lost; }
 
 void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
-                 std::vector<Rock*> rocks, int m_blockSize) {
+    std::vector<Rock*> rocks, int m_blockSize) {
     for (int i = m_snakeBody.size() - 1; i > 0; --i) {
         m_snakeBody[i].position = m_snakeBody[i - 1].position;
     }
@@ -46,49 +46,51 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[i].size(); j++) {
                 if (GetPosition().x - 1 ==
-                        (grid[i][j]->getPosition().x / m_blockSize) &&
+                    (grid[i][j]->getPosition().x / m_blockSize) &&
                     GetPosition().y ==
-                        (grid[i][j]->getPosition().y / m_blockSize)) {
+                    (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
             }
         }
         for (int i = 0; i < rocks.size(); i++) {
             if (GetPosition().x - 1 ==
-                    (rocks[i]->getPosition().x / m_blockSize) &&
+                (rocks[i]->getPosition().x / m_blockSize) &&
                 GetPosition().y == (rocks[i]->getPosition().y / m_blockSize)) {
                 return;
             }
         }
         --m_snakeBody[0].position.x;
         m_dir = Direction::None;
-    } else if (m_dir == Direction::Right) {
+    }
+    else if (m_dir == Direction::Right) {
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[i].size(); j++) {
                 if (GetPosition().x + 1 ==
-                        (grid[i][j]->getPosition().x / m_blockSize) &&
+                    (grid[i][j]->getPosition().x / m_blockSize) &&
                     GetPosition().y ==
-                        (grid[i][j]->getPosition().y / m_blockSize)) {
+                    (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
             }
         }
         for (int i = 0; i < rocks.size(); i++) {
             if (GetPosition().x + 1 ==
-                    (rocks[i]->getPosition().x / m_blockSize) &&
+                (rocks[i]->getPosition().x / m_blockSize) &&
                 GetPosition().y == (rocks[i]->getPosition().y / m_blockSize)) {
                 return;
             }
         }
         ++m_snakeBody[0].position.x;
         m_dir = Direction::None;
-    } else if (m_dir == Direction::Up) {
+    }
+    else if (m_dir == Direction::Up) {
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[i].size(); j++) {
                 if (GetPosition().x ==
-                        (grid[i][j]->getPosition().x / m_blockSize) &&
+                    (grid[i][j]->getPosition().x / m_blockSize) &&
                     GetPosition().y - 1 ==
-                        (grid[i][j]->getPosition().y / m_blockSize)) {
+                    (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
             }
@@ -96,19 +98,20 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
         for (int i = 0; i < rocks.size(); i++) {
             if (GetPosition().x == (rocks[i]->getPosition().x / m_blockSize) &&
                 GetPosition().y - 1 ==
-                    (rocks[i]->getPosition().y / m_blockSize)) {
+                (rocks[i]->getPosition().y / m_blockSize)) {
                 return;
             }
         }
         --m_snakeBody[0].position.y;
         m_dir = Direction::None;
-    } else if (m_dir == Direction::Down) {
+    }
+    else if (m_dir == Direction::Down) {
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[i].size(); j++) {
                 if (GetPosition().x ==
-                        (grid[i][j]->getPosition().x / m_blockSize) &&
+                    (grid[i][j]->getPosition().x / m_blockSize) &&
                     GetPosition().y + 1 ==
-                        (grid[i][j]->getPosition().y / m_blockSize)) {
+                    (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
             }
@@ -116,7 +119,7 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
         for (int i = 0; i < rocks.size(); i++) {
             if (GetPosition().x == (rocks[i]->getPosition().x / m_blockSize) &&
                 GetPosition().y + 1 ==
-                    (rocks[i]->getPosition().y / m_blockSize)) {
+                (rocks[i]->getPosition().y / m_blockSize)) {
                 return;
             }
         }
@@ -139,13 +142,13 @@ void Snake::Render(sf::RenderWindow& l_window) {
     // m_bodyRect.setFillColor(sf::Color::Yellow);
 
     m_bodyRect.setPosition(head->position.x * m_size,
-                           head->position.y * m_size);
+        head->position.y * m_size);
     l_window.draw(m_bodyRect);
     // m_bodyRect.setFillColor(sf::Color::Green);
 
     for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr) {
         m_bodyRect.setPosition(itr->position.x * m_size,
-                               itr->position.y * m_size);
+            itr->position.y * m_size);
         l_window.draw(m_bodyRect);
     }
 }

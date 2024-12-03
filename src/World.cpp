@@ -10,8 +10,8 @@
 #include "../headers/Collectable.hpp"
 using namespace std;
 
-sf::Texture collectibleTexture;
-sf::Texture wallTexture;
+//sf::Texture collectibleTexture;
+//sf::Texture wallTexture;
 World::World(sf::Vector2u l_windSize) {
     m_blockSize = 64;
     m_windowSize = l_windSize;
@@ -26,79 +26,106 @@ World::World(sf::Vector2u l_windSize) {
     ReadWorld();
     m_clock.restart();
 }
-
-void World::DropApple(Snake& l_player) {
-    int maxY = (m_windowSize.y / m_blockSize) - 2;
-    float fallSpeed = 1.f;
-    float elapsed = m_fallClock.getElapsedTime().asSeconds();
+void World::Dropjim(Snake& l_player) {
+    float fallSpeed = 0.5f;
+    float elapsed = m_clockfallClock.getElapsedTime().asSeconds();
     if (elapsed >= fallSpeed) {
+
         for (auto& collectable : collectables) {
             int nextY = collectable->getPosition().y;
+            bool cellOccupied = false;
 
-            if (nextY < maxY) {
-                sf::Vector2i testPosition(collectable->getPosition().x,
-                                          nextY + 1);
-
-                bool cellOccupied = false;
-
-                for (size_t i = 0; i < grid.size(); i++) {
-                    for (size_t j = 0; j < grid[i].size(); j++) {
-                        sf::Vector2f blockPos = grid[i][j]->getPosition();
-
-                        if (testPosition ==
-                            sf::Vector2i(blockPos.x / m_blockSize,
-                                         blockPos.y / m_blockSize)) {
-                            cellOccupied = true;
-                            break;
-                        }
+            for (size_t i = 0; i < grid.size(); i++) {
+                for (size_t j = 0; j < grid[i].size(); j++) {
+                    auto blockPos = sf::Vector2f(grid[i][j]->getPosition().x/ m_blockSize, grid[i][j]->getPosition().y / m_blockSize);
+                    //cout << blockPos.x << blockPos.y << endl;
+                    if (blockPos.x == collectable->getPosition().x && nextY +1 == blockPos.y) {
+                        cellOccupied = true;
+                        cout << "help" << endl;
+                        break;
                     }
-                    if (cellOccupied) break;
                 }
-                for (auto& otherCollectable : collectables) {
-                    if (&collectable != &otherCollectable &&
-                        otherCollectable->getPosition().x ==
-                            otherCollectable->getPosition().x &&
-                        otherCollectable->getPosition().y == nextY + 1) {
+                if (cellOccupied) break;
+            }
+            for (auto& otherCollectable : collectables) {
+                if (&collectable != &otherCollectable) {
+                    if (collectable->getPosition().x == otherCollectable->getPosition().x && nextY + 1 == otherCollectable->getPosition().y) {
                         cellOccupied = true;
                         break;
                     }
                 }
-
-                if (!cellOccupied) {
-                    nextY++;
+            }
+            for (auto& otherSand : sandBlocks) {
+                if (collectable->getPosition().x == otherSand->getPosition().x && nextY + 1 == otherSand->getPosition().y) {
+                    cellOccupied = true;
+                    break;
                 }
             }
-            collectable->SetPosition(
-                Vector2f(collectable->getPosition().x, nextY));
-            // m_appleShapes[&collectable - &collectables[0]].setPosition(
-            //     collectable->getPosition().x * m_blockSize,
-            //     collectable->getPosition().y * m_blockSize);
+
+            if (!cellOccupied) {
+                nextY++;
+            }
+
+            collectable->SetPosition(sf::Vector2f(collectable->getPosition().x, nextY));
         }
-        m_clock.restart();
+        m_clockfallClock.restart();
     }
 }
-void World::RespawnApple(Vector2f& position) {
-    // int maxX = (m_windowSize.x / m_blockSize) - 2;
-    // int maxY = (m_windowSize.y / m_blockSize) - 2;
 
-    // bool overlapped;
 
-    sf::Vector2f newApple = position;
-    // do {
-    //     newApple = sf::Vector2i(rand() % maxX + 1, rand() % maxY + 1);
-    //     overlapped = CheckCollisionWithWalls(newApple);
-    // } while (overlapped);
+void World::DropRock(Snake& l_player) {
+    float fallSpeed = 0.5f;
+    float elapsed = m_dropfallClock.getElapsedTime().asSeconds();
+    if (elapsed >= fallSpeed) {
 
-    m_apples.push_back((Vector2i)newApple);
+        for (auto& rock : rocks) {
+            int nextY = rock->getPosition().y;
+            bool cellOccupied = false;
 
-    sf::CircleShape appleShape(m_blockSize / 2);
-    appleShape.setFillColor(sf::Color::Red);
-    appleShape.setTexture(&collectibleTexture);
-    appleShape.setPosition(newApple.x / m_blockSize, newApple.y / m_blockSize);
-    m_appleShapes.push_back(appleShape);
+            // Check if the cell below the rock is occupied by any other block (sand, collectable, or other rocks)
+            for (size_t i = 0; i < grid.size(); i++) {
+                for (size_t j = 0; j < grid[i].size(); j++) {
+                    auto rockPos = sf::Vector2f(grid[i][j]->getPosition().x / m_blockSize, grid[i][j]->getPosition().y / m_blockSize);
+                    if (rockPos.x == rock->getPosition().x && nextY + 1 == rockPos.y) {
+                        cellOccupied = true;
+                        break;
+                    }
+                }
+                if (cellOccupied) break;
+            }
 
-    //   DropApple();
+            for (auto& otherCollectable : collectables) {
+                if (rock->getPosition().x == otherCollectable->getPosition().x && nextY + 1 == otherCollectable->getPosition().y) {
+                        cellOccupied = true;
+                        break;
+                }
+            }
+
+            for (auto& otherSand : sandBlocks) {
+                if (rock->getPosition().x == otherSand->getPosition().x && nextY + 1 == otherSand->getPosition().y) {
+                    cellOccupied = true;
+                    break;
+                }
+            }
+            for (auto& otherRock : rocks) {
+                if (rock != otherRock) {
+                    if (rock->getPosition().x == otherRock->getPosition().x && nextY + 1 == otherRock->getPosition().y) {
+                        cellOccupied = true;
+                        break;
+                    }
+                }
+            }
+            if (!cellOccupied) {
+                nextY++;
+            }
+
+            rock->SetPosition(sf::Vector2f(rock->getPosition().x, nextY));
+        }
+
+        m_dropfallClock.restart();
+    }
 }
+
 
 bool World::CheckCollisionWithWalls(sf::Vector2i& m) {
     int maxX = (m_windowSize.x / m_blockSize) - 2;
@@ -118,11 +145,14 @@ bool World::CheckCollisionWithWalls(sf::Vector2i& m) {
 
 void World::Update(Snake& l_player) {
     float appleUpdateInterval = 0.5f;
-    if (m_clock.getElapsedTime().asSeconds() >= appleUpdateInterval) {
-        DropApple(l_player);
-        m_clock.restart();
+    if (m_clockfallClock.getElapsedTime().asSeconds() >= appleUpdateInterval) {
+         Dropjim(l_player);
+        m_clockfallClock.restart();
     }
-
+    if (m_dropfallClock.getElapsedTime().asSeconds() >= appleUpdateInterval) {
+        DropRock(l_player);
+        m_dropfallClock.restart();
+    }
     for (auto& collectable : collectables) {
         if (l_player.GetPosition().x == collectable->getPosition().x &&
             l_player.GetPosition().y == collectable->getPosition().y) {
@@ -130,8 +160,8 @@ void World::Update(Snake& l_player) {
             l_player.IncreaseScore();
             delete (collectable);
             collectables.erase(std::remove(collectables.begin(),
-                                           collectables.end(), collectable),
-                               collectables.end());
+                collectables.end(), collectable),
+                collectables.end());
             break;
         }
         collectable->update(m_blockSize);
@@ -147,7 +177,7 @@ void World::Update(Snake& l_player) {
         rock->update(m_blockSize);
     }
     for (auto sandBlock = sandBlocks.begin(); sandBlock != sandBlocks.end();
-         sandBlock++) {
+        sandBlock++) {
         if (l_player.GetPosition().x == (*sandBlock)->getPosition().x &&
             l_player.GetPosition().y == (*sandBlock)->getPosition().y) {
             delete (*sandBlock);
@@ -169,8 +199,8 @@ void World::Render(sf::RenderWindow& l_window) {
         }
     }
 
-    for (auto& appleShape : m_appleShapes) {
-        l_window.draw(appleShape);
+    for (auto& jimShape : m_appleShapes) {
+        l_window.draw(jimShape);
     }
 
     for (auto& sandBlock : sandBlocks) {
@@ -202,36 +232,36 @@ void World::ReadWorld() {
     sf::Texture collectiBleTexture;
     sf::Texture rockTexture;
     sandTexture.loadFromFile("../static/snowSeamless.png");
-    wallTexture.loadFromFile("../static/wall.PNG");
+  //  wallTexture.loadFromFile("../static/wall.PNG");
     collectiBleTexture.loadFromFile("../static/Golden fish.png");
     rockTexture.loadFromFile("../static/rock.png");
     while (getline(myfile, line)) {
         grid.push_back(std::vector<RectangleShape*>());
         for (int col = 0, winX = 0;
-             /*winX < m_windowSize.x &&*/ line[col] != '\0';
-             col++, winX += m_blockSize) {
+            /*winX < m_windowSize.x &&*/ line[col] != '\0';
+            col++, winX += m_blockSize) {
             if (line[col] == '#') {
                 auto block = new sf::RectangleShape();
                 block->setPosition(sf::Vector2f(winX, winY));
                 block->setSize(sf::Vector2f(m_blockSize, m_blockSize));
                 grid[row].push_back(block);
-                block->setTexture(&wallTexture);
+                //block->setTexture(&wallTexture);
             }
 
             if (line[col] == '@') {
                 auto block = new Sand(sf::Vector2f(winX, winY), m_blockSize,
-                                      sandTexture);
+                    sandTexture);
                 sandBlocks.push_back(block);
             }
 
             if (line[col] == '%') {
                 auto block = new Collectable(sf::Vector2f(winX, winY),
-                                             m_blockSize, collectiBleTexture);
+                    m_blockSize, collectiBleTexture);
                 collectables.push_back(block);
             }
             if (line[col] == '&') {
                 auto block = new Rock(sf::Vector2f(winX, winY), m_blockSize,
-                                      rockTexture);
+                    rockTexture);
                 rocks.push_back(block);
             }
         }
