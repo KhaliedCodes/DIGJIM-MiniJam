@@ -1,8 +1,10 @@
 #include "../headers/Snake.hpp"
+
+#include "../headers/Rock.hpp"
 Snake::Snake(int l_blockSize) {
     m_size = l_blockSize;
     m_bodyRect.setSize(sf::Vector2f(m_size - 1, m_size - 1));
-    if (texture.loadFromFile("../static/seal.png")) {
+    if (texture.loadFromFile("../static/hungy.png")) {
         m_bodyRect.setTexture(&texture);
     }
 
@@ -36,7 +38,7 @@ void Snake::Lose() { m_lost = true; }
 void Snake::ToggleLost() { m_lost = !m_lost; }
 
 void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
-                 int m_blockSize) {
+                 std::vector<Rock*> rocks, int m_blockSize) {
     for (int i = m_snakeBody.size() - 1; i > 0; --i) {
         m_snakeBody[i].position = m_snakeBody[i - 1].position;
     }
@@ -49,6 +51,13 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
                         (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
+            }
+        }
+        for (int i = 0; i < rocks.size(); i++) {
+            if (GetPosition().x - 1 ==
+                    (rocks[i]->getPosition().x / m_blockSize) &&
+                GetPosition().y == (rocks[i]->getPosition().y / m_blockSize)) {
+                return;
             }
         }
         --m_snakeBody[0].position.x;
@@ -64,6 +73,13 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
                 }
             }
         }
+        for (int i = 0; i < rocks.size(); i++) {
+            if (GetPosition().x + 1 ==
+                    (rocks[i]->getPosition().x / m_blockSize) &&
+                GetPosition().y == (rocks[i]->getPosition().y / m_blockSize)) {
+                return;
+            }
+        }
         ++m_snakeBody[0].position.x;
         m_dir = Direction::None;
     } else if (m_dir == Direction::Up) {
@@ -77,6 +93,13 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
                 }
             }
         }
+        for (int i = 0; i < rocks.size(); i++) {
+            if (GetPosition().x == (rocks[i]->getPosition().x / m_blockSize) &&
+                GetPosition().y - 1 ==
+                    (rocks[i]->getPosition().y / m_blockSize)) {
+                return;
+            }
+        }
         --m_snakeBody[0].position.y;
         m_dir = Direction::None;
     } else if (m_dir == Direction::Down) {
@@ -88,6 +111,13 @@ void Snake::Move(std::vector<std::vector<RectangleShape*>> grid,
                         (grid[i][j]->getPosition().y / m_blockSize)) {
                     return;
                 }
+            }
+        }
+        for (int i = 0; i < rocks.size(); i++) {
+            if (GetPosition().x == (rocks[i]->getPosition().x / m_blockSize) &&
+                GetPosition().y + 1 ==
+                    (rocks[i]->getPosition().y / m_blockSize)) {
+                return;
             }
         }
         ++m_snakeBody[0].position.y;
@@ -106,12 +136,12 @@ void Snake::Render(sf::RenderWindow& l_window) {
         return;
     }
     auto head = m_snakeBody.begin();
-    m_bodyRect.setFillColor(sf::Color::Yellow);
+    // m_bodyRect.setFillColor(sf::Color::Yellow);
 
     m_bodyRect.setPosition(head->position.x * m_size,
                            head->position.y * m_size);
     l_window.draw(m_bodyRect);
-    m_bodyRect.setFillColor(sf::Color::Green);
+    // m_bodyRect.setFillColor(sf::Color::Green);
 
     for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr) {
         m_bodyRect.setPosition(itr->position.x * m_size,

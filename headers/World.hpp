@@ -1,22 +1,26 @@
 #include <SFML/Graphics.hpp>
 
+#include "../headers/Collectable.hpp"
 #include "../headers/Snake.hpp"
-#include "vector"
-
 using namespace sf;
+#include "../headers/Rock.hpp"
+#include "Sand.hpp"
+#include "vector"
 
 class World {
   public:
     World(sf::Vector2u l_windSize);
-    ~World();
     int GetBlockSize();
-    void RespawnApple();
+    void RespawnApple(Vector2f& position);
     void Update(Snake& l_player);
     void Render(sf::RenderWindow& l_window);
     void ReadWorld();
     void DropApple(Snake& l_player);
     bool CheckCollisionWithWalls(sf::Vector2i& m);
     std::vector<std::vector<RectangleShape*>> grid;
+    std::vector<Sand*> sandBlocks;
+    std::vector<Collectable*> collectables;
+    std::vector<Rock*> rocks;
 
   private:
     sf::Vector2u m_windowSize;

@@ -3,11 +3,12 @@
 class Rock {
     sf::Vector2f position;
     sf::Texture texture;
-    sf::RectangleShape shape;
+    sf::RectangleShape* shape;
 
   public:
-    Rock(sf::Vector2f position);
+    Rock(sf::Vector2f position, int blockSize, sf::Texture texture);
     void SetPosition(sf::Vector2f position);
-    void render();
-    void update();
+    sf::Vector2f getPosition();
+    void render(sf::RenderWindow& l_window);
+    void update(int blockSize);
 };

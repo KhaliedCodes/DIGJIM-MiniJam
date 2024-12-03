@@ -65,16 +65,20 @@ void Game::HandleInput() {
         if (event.type == Event::KeyPressed)
             if (event.key.code == Keyboard::Up) {
                 m_snake.SetDirection(Direction::Up);
-                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+                m_snake.Move(m_world.grid, m_world.rocks,
+                             m_world.GetBlockSize());
             } else if (event.key.code == Keyboard::Down) {
                 m_snake.SetDirection(Direction::Down);
-                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+                m_snake.Move(m_world.grid, m_world.rocks,
+                             m_world.GetBlockSize());
             } else if (event.key.code == Keyboard::Left) {
                 m_snake.SetDirection(Direction::Left);
-                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+                m_snake.Move(m_world.grid, m_world.rocks,
+                             m_world.GetBlockSize());
             } else if (event.key.code == Keyboard::Right) {
                 m_snake.SetDirection(Direction::Right);
-                m_snake.Move(m_world.grid, m_world.GetBlockSize());
+                m_snake.Move(m_world.grid, m_world.rocks,
+                             m_world.GetBlockSize());
             }
     }
 }

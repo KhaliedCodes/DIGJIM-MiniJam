@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Rock.hpp"
+
 #ifndef SNAKE_H
 #define SNAKE_H
 enum class Direction { None, Up, Down, Left, Right };
@@ -28,7 +30,7 @@ class Snake {
     void ToggleLost();
     void Reset();  // Reset to starting position.
     void Move(std::vector<std::vector<RectangleShape*>> grid,
-              int m_blockSize);  // Movement method.
+              std::vector<Rock*> rocks, int m_blockSize);  // Movement method.
     void Render(sf::RenderWindow& l_window);
     void MoveReverse();
     void IncreaseSpeed();
