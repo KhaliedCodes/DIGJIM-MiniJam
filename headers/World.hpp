@@ -1,8 +1,10 @@
+#pragma once
 #include <SFML/Graphics.hpp>
-#include"../headers/Door.hpp"
-#include"../headers/StartingDoor.hpp"
+
 #include "../headers/Collectable.hpp"
+#include "../headers/Door.hpp"
 #include "../headers/Snake.hpp"
+#include "../headers/StartingDoor.hpp"
 using namespace sf;
 #include "../headers/Rock.hpp"
 #include "Sand.hpp"

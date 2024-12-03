@@ -236,9 +236,9 @@ void World::ReadWorld(Snake& l_player) {
                                       rockTexture);
                 rocks.push_back(block);
             }
-            if (line[col] == 'A') {
-                l_player.setPosition(sf::Vector2f(winX, winY));
-            }
+            // if (line[col] == 'A') {
+            //     l_player.setPosition(sf::Vector2f(winX, winY));
+            // }
             if (line[col] == 'D') {
                 door = new Door(sf::Vector2f(winX, winY), m_blockSize);
             }
