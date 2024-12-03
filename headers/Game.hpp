@@ -6,7 +6,7 @@
 #include "World.hpp"
 
 class Game {
-  public:
+public:
     Game();
     ~Game();
     void HandleInput();
@@ -16,7 +16,7 @@ class Game {
     sf::Time GetElapsed();
     void RestartClock();
 
-  private:
+private:
     World m_world;
     Snake m_snake;
     GameWindow m_window;

@@ -18,7 +18,8 @@ class World {
     void Update(Snake& l_player);
     void Render(sf::RenderWindow& l_window);
     void ReadWorld(Snake& l_player);
-    void DropApple(Snake& l_player);
+    void Dropjim(Snake& l_player);
+    void DropRock(Snake& l_player);
     bool CheckCollisionWithWalls(sf::Vector2i& m);
     std::vector<std::vector<RectangleShape*>> grid;
     std::vector<Sand*> sandBlocks;
@@ -36,7 +37,8 @@ class World {
     StartingDoor* startdoor;
     std::vector<sf::Vector2i> m_apples;  // To store the positions of the apples
     std::vector<sf::CircleShape>
-        m_appleShapes;      // To store the shapes of the apples
-    sf::Clock m_fallClock;  // New clock for additional timing
+        m_appleShapes;           // To store the shapes of the apples
+    sf::Clock m_clockfallClock;  // New clock for additional timing
+    sf::Clock m_dropfallClock;
     sf::Clock m_clock;
 };

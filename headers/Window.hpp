@@ -3,9 +3,9 @@
 #include <iostream>
 
 class GameWindow {
-  public:
+public:
     GameWindow();
-    GameWindow(const std::string &l_title, const sf::Vector2u &l_size);
+    GameWindow(const std::string& l_title, const sf::Vector2u& l_size);
     ~GameWindow();
     void BeginDraw();  // Clear the window.
     void EndDraw();    // Display the changes.
@@ -16,12 +16,12 @@ class GameWindow {
     // bool IsFullscreen();
     sf::Vector2u GetWindowSize();
     void ToggleFullscreen();
-    void Draw(sf::Drawable &l_drawable);
+    void Draw(sf::Drawable& l_drawable);
     bool m_isDone;
     sf::RenderWindow *getWindow();
 
-  private:
-    void Setup(const std::string &l_title, const sf::Vector2u &l_size);
+private:
+    void Setup(const std::string& l_title, const sf::Vector2u& l_size);
     void Destroy();
     void Create();
     sf::Vector2u m_windowSize;

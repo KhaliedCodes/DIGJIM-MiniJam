@@ -6,7 +6,7 @@ class Collectable {
     sf::Texture texture;
     sf::RectangleShape* shape;
 
-  public:
+public:
     Collectable(sf::Vector2f position, int blockSize, sf::Texture texture);
     void SetPosition(sf::Vector2f position);
     void render(sf::RenderWindow& l_window);

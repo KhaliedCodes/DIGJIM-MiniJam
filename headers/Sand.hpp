@@ -5,7 +5,7 @@ class Sand {
     sf::Texture texture;
     sf::RectangleShape* shape;
 
-  public:
+public:
     Sand(sf::Vector2f position, int blockSize, sf::Texture texture);
     void SetPosition(sf::Vector2f position);
     sf::Vector2f getPosition();
